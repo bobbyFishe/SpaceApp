@@ -104,6 +104,12 @@ fun SpaceCard(
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
             .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
     ) {
         Column(
             modifier = Modifier
