@@ -6,7 +6,7 @@
 
 ## 🖼 Интерфейс приложения
 <p align="center">
-  <img src="screenshots/image1.png.png" width="250" title="Карточка Мeркурий">
+  <img src="screenshots/image1.png" width="250" title="Карточка Мeркурий">
   <img src="screenshots/image2.png" width="250" title="Карточка Марса">
 </p>
 
