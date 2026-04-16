@@ -46,10 +46,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,8 +67,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.spacerepository.data.SpaceObject
 import com.example.spacerepository.data.SpaceRepository
+import com.example.spacerepository.data.SpaceViewModel
 import com.example.spacerepository.ui.theme.SpaceRepositoryTheme
 
 class MainActivity : ComponentActivity() {
@@ -91,7 +95,7 @@ fun SpaceCard(
     spaceObject: SpaceObject,
     modifier: Modifier = Modifier
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     OutlinedCard(
         colors = CardDefaults.outlinedCardColors(
@@ -316,6 +320,9 @@ fun SpaceImage(spaceObject: SpaceObject, modifier: Modifier = Modifier) {
 
 @Composable
 fun SpaceCardApp() {
+    val viewModel: SpaceViewModel = viewModel<SpaceViewModel>()
+
+    val spaceObjects by viewModel.uiState.collectAsState()
     Scaffold(
         topBar = { SpaceTopBar() }
     ) { innerPadding ->
@@ -329,7 +336,7 @@ fun SpaceCardApp() {
                 .fillMaxSize()
                 .padding(horizontal = 2.dp)
         ) {
-            items(SpaceRepository.getSpaceObjects(), key = { it.day }) { spaceObject ->
+            items(spaceObjects, key = { it.day }) { spaceObject ->
                 SpaceCard(spaceObject)
             }
         }
